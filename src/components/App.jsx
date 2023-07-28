@@ -29,7 +29,7 @@ export const App = () => {
     const normalizedFilter = name.toLowerCase();
     const isContactExist = contacts.some(contact => contact.name.toLowerCase() === normalizedFilter);
 
-    if (isContactExist) {
+    if (!isContactExist) {
       alert(`${name} is already in contacts.`);
       return;
     }
