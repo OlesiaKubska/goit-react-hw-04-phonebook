@@ -9,18 +9,10 @@ import { Header } from "./Header/Header";
 import { AppContainer } from "./AppContainer/AppContainer";
 
 export const App = () => {
-  const [contacts, setContacts] = useState(contactsData);
+  const [contacts, setContacts] = useState(() => JSON.parse(localStorage.getItem('contacts')) ?? contactsData);
+  
   const [filter, setFilter] = useState("");
 
-  useEffect(() => {
-    const storedContacts = localStorage.getItem("contacts");
-    // console.log(storedContacts);
-    const parsedContacts = JSON.parse(storedContacts);
-    if (parsedContacts) {
-      setContacts(parsedContacts);
-    }
-  }, []);
-  
   useEffect(() => {
     localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);
@@ -29,7 +21,7 @@ export const App = () => {
     const normalizedFilter = name.toLowerCase();
     const isContactExist = contacts.some(contact => contact.name.toLowerCase() === normalizedFilter);
 
-    if (!isContactExist) {
+    if (isContactExist) {
       alert(`${name} is already in contacts.`);
       return;
     }
